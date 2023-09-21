@@ -4,11 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start:db": "json-server -w db.json -p 3005"
+    "start:db": "json-server -w db.json -p 3005",
+    "start:ngrok": "ngrok http localhost:3005"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "json-server": "^0.17.3"
+    "json-server": "^0.17.3",
+    "ngrok": "^5.0.0-beta.2"
   }
 }
