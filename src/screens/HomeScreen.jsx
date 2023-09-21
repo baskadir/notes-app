@@ -1,8 +1,9 @@
 import { StyleSheet, View } from "react-native";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useRef } from "react";
 import NoteItem from "../components/NoteItem";
 import { Context as NoteContext } from "../context/NoteContext";
 import { SwipeListView } from "react-native-swipe-list-view";
+import NoteListHeader from "../components/NoteListHeader";
 import NoteListSwipeButton from "../components/NoteListSwipeButton";
 
 const HomeScreen = ({ navigation }) => {
@@ -12,9 +13,12 @@ const HomeScreen = ({ navigation }) => {
     reset,
   } = useContext(NoteContext);
 
+  const searchInputRef = useRef();
+
   const resetNotesList = () => {
     getAllNotes();
     reset();
+    searchInputRef.current.clear();
   };
 
   useEffect(() => {
@@ -26,20 +30,23 @@ const HomeScreen = ({ navigation }) => {
   }, [navigation]);
 
   const renderItem = ({ item, index }) => (
-    <NoteItem
-      item={item}
-      index={index}
-    />
+    <NoteItem item={item} index={index} />
   );
 
   const renderHiddenItem = ({ item }) => (
     <NoteListSwipeButton itemId={item.id} resetNotesList={resetNotesList} />
   );
 
+  const data = isSearchActive ? filteredNotes : notes;
+
   return (
     <View style={styles.container}>
+      <NoteListHeader
+        dataLength={data.length}
+        searchInputRef={searchInputRef}
+      />
       <SwipeListView
-        data={notes}
+        data={data}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
         renderHiddenItem={renderHiddenItem}
