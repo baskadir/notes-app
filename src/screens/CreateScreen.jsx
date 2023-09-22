@@ -1,14 +1,14 @@
-import { StyleSheet, Text, View } from "react-native";
-import React from "react";
+import { useContext } from "react";
+import NoteForm from "../components/NoteForm";
+import { Context as NoteContext } from "../context/NoteContext";
 
-const CreateScreen = () => {
-  return (
-    <View>
-      <Text>CreateScreen</Text>
-    </View>
-  );
+const CreateScreen = ({navigation}) => {
+  const { addNote } = useContext(NoteContext);
+
+  return <NoteForm onSubmit={(title, content) => {
+    addNote({title, content}, () => navigation.pop());
+  }} />
 };
 
 export default CreateScreen;
 
-const styles = StyleSheet.create({});

@@ -18,7 +18,8 @@ const HomeScreen = ({ navigation }) => {
   const resetNotesList = () => {
     getAllNotes();
     reset();
-    searchInputRef.current.clear();
+    if (searchInputRef.current)
+      searchInputRef.current.clear();
   };
 
   useEffect(() => {
