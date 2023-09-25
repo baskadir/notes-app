@@ -14,9 +14,9 @@ const noteReducer = (state, action) => {
     case ActionTypes.GET_NOTES:
       return { ...state, notes: action.payload };
     case ActionTypes.EDIT_NOTE:
-      return state.map((note) => {
-        return note.id === action.payload.id ? action.payload.editedNote : note;
-      });
+      return {...state, notes : state.notes.map((note) => {
+        return note.id === action.payload.editedNote.id ? action.payload.editedNote : note;
+      })}
     case ActionTypes.DELETE_NOTE:
       return {
         ...state,
@@ -53,13 +53,16 @@ const addNote = (dispatch) => async (note, callback) => {
   }
 };
 
-const editNote = (dispatch) => async (id, editedNote) => {
-  await jsonServer.put(`/notes/${id}`, {
+const editNote = (dispatch) => async (editedNote, callback) => {
+  await jsonServer.put(`/notes/${editedNote.id}`, {
     title: editedNote.title,
     content: editedNote.content,
-    date: new Date().toLocaleString(),
+    date: editedNote.date
   });
-  dispatch({ type: ActionTypes.EDIT_NOTE, payload: { id, editedNote } });
+  dispatch({ type: ActionTypes.EDIT_NOTE, payload: { editedNote } });
+  
+  if(callback) 
+    callback();
 };
 
 const deleteNote = (dispatch) => async (id) => {

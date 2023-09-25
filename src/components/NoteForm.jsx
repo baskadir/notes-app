@@ -12,7 +12,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 const NoteForm = ({ onSubmit, initialValues = { title: "", content: "" } }) => {
   const [title, setTitle] = useState(initialValues.title);
   const [content, setContent] = useState(initialValues.content);
-  const date = initialValues.date ?? new Date();
+  const date = initialValues.date ?? (new Date()).toLocaleString();
 
   const clearAllInputs = () => {
     setTitle("");
@@ -41,7 +41,7 @@ const NoteForm = ({ onSubmit, initialValues = { title: "", content: "" } }) => {
     <View style={styles.container}>
       <View style={styles.formArea}>
         <View style={styles.header}>
-          <Text style={styles.date}>{`${date.toLocaleString()}${!initialValues.date ? ' - today' : ''}`}</Text>
+          <Text style={styles.date}>{`${date}${!initialValues.date ? ' - today' : ''}`}</Text>
           <View style={styles.icons}>
             <TouchableOpacity onPress={clearAllInputs}>
               <MaterialIcons
