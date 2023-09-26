@@ -6,17 +6,19 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { MaterialIcons } from "@expo/vector-icons";
 
 const NoteForm = ({ onSubmit, initialValues = { title: "", content: "" } }) => {
   const [title, setTitle] = useState(initialValues.title);
   const [content, setContent] = useState(initialValues.content);
   const date = initialValues.date ?? (new Date()).toLocaleString();
+  const titleInputRef = useRef();
 
   const clearAllInputs = () => {
     setTitle("");
     setContent("");
+    titleInputRef.current.focus();
   };
 
   const saveNote = () => {
@@ -64,6 +66,7 @@ const NoteForm = ({ onSubmit, initialValues = { title: "", content: "" } }) => {
             value={title}
             onChangeText={setTitle}
             maxLength={32}
+            ref={titleInputRef}            
           />
           <TextInput
             style={styles.inputContent}

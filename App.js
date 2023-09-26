@@ -1,13 +1,16 @@
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, DefaultTheme, DarkTheme } from "@react-navigation/native";
 import AppStackNavigator from "./src/navigations/AppStackNavigator";
-import { Provider } from "./src/context/NoteContext";
+import { Provider as NoteProvider } from "./src/context/NoteContext";
+import { useColorScheme } from "react-native";
 
 export default function App() {
+  const scheme = useColorScheme();
+
   return (
-    <NavigationContainer>
-      <Provider>
+    <NavigationContainer theme={scheme === 'dark' ? DarkTheme : DefaultTheme}>
+      <NoteProvider>
         <AppStackNavigator />
-      </Provider>
+      </NoteProvider>
     </NavigationContainer>
   );
 }
